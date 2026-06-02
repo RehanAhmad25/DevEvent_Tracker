@@ -1,9 +1,10 @@
 import ExploreBtn from "@/components/ExploreBtn";
 import EventCard from "@/components/EventCard";
+import SearchFilters from "@/components/SearchFilters"; // Added missing import
+import Footer from "@/components/Footer"; // Added missing import
 import { IEvent } from "@/database";
 import { cacheLife } from "next/cache";
 import { getAllEvents } from "@/lib/actions/event.actions";
- main
 
 interface PageProps {
   searchParams: Promise<{
@@ -20,8 +21,8 @@ const Page = async ({ searchParams }: PageProps) => {
   // 1. Resolve search variables from the URL router interface
   const resolvedParams = await searchParams;
 
-  // 2. Forward parameters safely directly to your server action query logic
-  const { events } = await getAllEvents({
+  // 2. Fixed Destructuring: Receives plain array directly from your updated action
+  const events = await getAllEvents({
     query: resolvedParams.query,
     mode: resolvedParams.mode,
     tag: resolvedParams.tag,
@@ -29,7 +30,7 @@ const Page = async ({ searchParams }: PageProps) => {
 
   return (
     <section>
-      <h1 className="text-center">The Hub for Every Dev <br /> Event You Can't Miss</h1>
+      <h1 className="text-center">The Hub for Every Dev <br /> Event You Can&apos;t Miss</h1>
       <p className="text-center mt-5">Hackathons, Meetups, and Conferences, All in One Place</p>
 
       <ExploreBtn />
@@ -55,8 +56,9 @@ const Page = async ({ searchParams }: PageProps) => {
           /* Smooth Contextual Empty State displayed dynamically */
           <div className="flex flex-col items-center justify-center text-center p-12 border border-dashed border-gray-300 rounded-2xl max-w-xl mx-auto bg-white/50">
             <h4 className="text-lg font-semibold text-gray-800 mb-1">No events found</h4>
+            {/* Fixed Linting Error: Escaped the apostrophe here */}
             <p className="text-sm text-gray-500 max-w-xs">
-              We couldn't find any listings matching your search constraints. Try checking your spelling or adjusting filters.
+              We couldn&apos;t find any listings matching your search constraints. Try checking your spelling or adjusting filters.
             </p>
           </div>
         )}
